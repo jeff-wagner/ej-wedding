@@ -1,0 +1,5 @@
+# Copy to .Renviron (same folder as app.R) and fill in. Never commit .Renviron.
+RSVP_SHEET_ID=1AbCdEfGhIjKlMnOpQrStUvWxYz0123456789
+GS4_SERVICE_ACCOUNT_JSON=secrets/rsvp-service-account.json
+# Code(s) printed on invitations; comma-separate for several (case/spaces/dashes ignored)
+RSVP_GUEST_CODE=PHALAROPE

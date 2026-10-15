@@ -1,0 +1,207 @@
+/* Palette drawn from the phalarope illustration + save-the-date */
+:root {
+  --sage:  #4E5547;
+  --rust:  #A0452B;
+  --slate: #5E6266;
+  --water: #8EA8AE;
+  --ochre: #C69A3A;
+  --cream: #FBF8F2;
+  --ink:   #1F1F1F;
+  --muted: #7D8178;
+  --script: "Allura", cursive;
+}
+
+body {
+  background: #FFFFFF;
+  color: var(--sage);
+  letter-spacing: 0.01em;
+}
+
+/* ---- Navbar ---------------------------------------------------------- */
+.navbar {
+  border-bottom: 1px solid rgba(78, 85, 71, 0.12);
+  background: #FFFFFF !important;
+}
+.navbar .brand { font-size: 2.1rem; color: var(--ink); line-height: 1; }
+.navbar .nav-link {
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  font-size: 0.85rem;
+  color: var(--sage) !important;
+  padding: 0.5rem 0.9rem !important;
+}
+.navbar .nav-link.active {
+  color: var(--rust) !important;
+  box-shadow: inset 0 -1px 0 var(--rust);
+}
+
+/* ---- Typography ------------------------------------------------------ */
+.script { font-family: var(--script); font-weight: 400; letter-spacing: 0; }
+
+.section-title {
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.35em 0.6em;
+  margin: 0 0 2rem;
+  text-align: center;
+}
+.section-title .caps {
+  text-transform: uppercase;
+  letter-spacing: 0.28em;
+  font-weight: 500;
+  font-size: clamp(1.8rem, 5vw, 3.2rem);
+  color: var(--sage);
+}
+.section-title .script {
+  font-size: clamp(2rem, 5.5vw, 3.4rem);
+  color: var(--sage);
+  transform: translateY(-0.15em);
+}
+
+.caps-sm {
+  text-transform: uppercase;
+  letter-spacing: 0.25em;
+  font-size: 0.95rem;
+  color: var(--slate);
+}
+.lead-text { font-size: 1.3rem; text-align: center; max-width: 38rem; margin: 0 auto 2rem; }
+.muted { color: var(--muted); }
+.center { text-align: center; }
+a { color: var(--rust); }
+a:hover { color: var(--sage); }
+
+/* ---- Layout ---------------------------------------------------------- */
+.page-section {
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 3.5rem 16px 2.5rem;
+}
+
+.water-divider {
+  display: block;
+  width: min(420px, 80%);
+  height: 34px;
+  margin: 3rem auto 0;
+}
+.water-divider path {
+  fill: none;
+  stroke: var(--water);
+  stroke-width: 2.4;
+  stroke-linecap: round;
+  opacity: 0.85;
+}
+
+/* ---- Home ------------------------------------------------------------ */
+.home { text-align: center; padding-top: 2.5rem; }
+.hero-art {
+  display: block;
+  width: min(760px, 100%);
+  height: auto;
+  margin: -0.5rem auto 0.5rem;
+}
+.home .names { font-size: clamp(3rem, 9vw, 5rem); color: var(--sage); line-height: 1.1; }
+.date-display {
+  font-size: clamp(2rem, 6vw, 3rem);
+  letter-spacing: 0.18em;
+  margin: 0.25rem 0 0.5rem;
+  color: var(--sage);
+}
+.countdown { margin: 1.75rem 0 1.25rem; font-size: 1.15rem; color: var(--slate); }
+.count-num { font-size: 1.6rem; font-weight: 600; color: var(--rust); }
+
+.btn-rsvp {
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  padding: 0.6rem 2.2rem 0.6rem 2.5rem;
+  font-size: 0.95rem;
+}
+
+/* ---- Story ----------------------------------------------------------- */
+.milestones {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+}
+.milestone {
+  text-align: center;
+  padding: 1.5rem 1rem;
+  background: var(--cream);
+  border-top: 3px solid var(--rust);
+}
+.milestone-when { font-family: var(--script); font-size: 2rem; color: var(--rust); }
+
+/* ---- Weekend --------------------------------------------------------- */
+.day-heading {
+  text-align: center;
+  margin: 2.5rem 0 1rem;
+  font-weight: 500;
+}
+.event-card {
+  display: grid;
+  grid-template-columns: 7.5rem 1fr;
+  gap: 1rem;
+  padding: 1.1rem 0;
+  border-bottom: 1px solid rgba(142, 168, 174, 0.45);
+}
+.event-time { font-size: 1.25rem; color: var(--rust); font-weight: 600; text-align: right; }
+.event-body h4 { margin: 0 0 0.2rem; font-weight: 600; }
+.event-body p { margin: 0.3rem 0 0; }
+.event-place { color: var(--slate); font-size: 1rem; display: flex; gap: 0.4rem; align-items: center; }
+
+@media (max-width: 575px) {
+  .event-card { grid-template-columns: 1fr; gap: 0.2rem; }
+  .event-time { text-align: left; }
+}
+
+/* ---- Travel ---------------------------------------------------------- */
+.info-card {
+  text-align: center;
+  padding: 1.5rem 1.1rem;
+  background: var(--cream);
+  height: 100%;
+}
+.info-icon { font-size: 1.8rem; color: var(--water); margin-bottom: 0.4rem; }
+.info-card h4 { font-weight: 600; }
+.hotel-list { max-width: 36rem; margin: 0 auto; text-align: center; }
+.hotel { margin-bottom: 1.25rem; }
+.hotel a { font-size: 1.3rem; font-weight: 600; text-decoration: none; }
+.hotel p { margin: 0.1rem 0 0; color: var(--muted); }
+
+/* ---- RSVP ------------------------------------------------------------ */
+.rsvp-form {
+  max-width: 34rem;
+  margin: 0 auto;
+  padding: 2rem 1.75rem;
+  background: var(--cream);
+  border: 1px solid rgba(78, 85, 71, 0.15);
+}
+.rsvp-form .control-label { font-weight: 600; }
+.rsvp-form .form-control { background: #FFFFFF; }
+.rsvp-form .btn-rsvp { display: block; margin: 1.25rem auto 0; }
+.form-check-input:checked { background-color: var(--rust); border-color: var(--rust); }
+.rsvp-code { max-width: 26rem; text-align: center; }
+.rsvp-code input { text-align: center; text-transform: uppercase; letter-spacing: 0.25em; }
+.rsvp-thanks { text-align: center; }
+.rsvp-thanks h3 { font-size: 3.5rem; color: var(--sage); }
+.thanks-art { width: min(360px, 90%); height: auto; }
+
+/* ---- Registry -------------------------------------------------------- */
+.registry-links { display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; }
+.registry-links .btn { letter-spacing: 0.15em; text-transform: uppercase; font-size: 0.9rem; padding: 0.7rem 1.6rem; }
+
+/* ---- FAQ ------------------------------------------------------------- */
+.faq { max-width: 44rem; margin: 0 auto 2rem; }
+.faq .accordion-button { font-size: 1.2rem; font-weight: 600; color: var(--sage); }
+.faq .accordion-button:not(.collapsed) { background: var(--cream); color: var(--rust); box-shadow: none; }
+
+/* ---- Footer ---------------------------------------------------------- */
+.site-footer {
+  text-align: center;
+  padding: 2rem 16px 2.5rem;
+  color: var(--muted);
+  letter-spacing: 0.15em;
+  font-size: 0.9rem;
+}
+.site-footer .script { font-size: 1.6rem; letter-spacing: 0; color: var(--sage); }

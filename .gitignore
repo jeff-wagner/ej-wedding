@@ -1,0 +1,6 @@
+.Renviron
+secrets/
+*.json
+data/rsvps.csv
+rsconnect/
+.Rhistory
