@@ -2,6 +2,6 @@
 secrets/
 *.json
 !manifest.json
-data/rsvps.csv
+data/*.csv
 rsconnect/
 .Rhistory

@@ -15,7 +15,7 @@ site <- list(
      venue_address = "19265 South Lakeside Rd, New Buffalo, MI 49117",
      rsvp_open = FALSE, # flip to TRUE when formal invitations go out
      rsvp_deadline = as.Date("2027-07-31"),
-     contact_email = "[your-email@example.com]"
+     contact_email = "[emjdon125@gmail.com]"
 )
 
 story <- list(
@@ -112,6 +112,11 @@ registry <- list(
      list(name = "[Registry one]", url = "#"),
      list(name = "[Registry two]", url = "#"),
      list(name = "Honeymoon fund", url = "#")
+)
+
+# Community board (posting needs the guest code from the invitation)
+board_text <- list(
+     intro = "Say hello, share your travel plans, find a carpool or a hotel roommate, or leave us a note. Anyone with an invitation can post."
 )
 
 faq <- list(

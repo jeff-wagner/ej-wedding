@@ -59,7 +59,7 @@ home_page <- page_section(
 )
 
 story_page <- page_section(
-  section_title("Our", "little", "Story"),
+  section_title("Our Story"),
   p(class = "lead-text", story$intro),
   div(
     class = "milestones",
@@ -76,7 +76,7 @@ story_page <- page_section(
 )
 
 weekend_page <- page_section(
-  section_title("The", "wedding", "Weekend"),
+  section_title("The Weekend"),
   p(
     class = "lead-text",
     site$date_long,
@@ -159,6 +159,12 @@ registry_page <- page_section(
   )
 )
 
+community_page <- page_section(
+  class = "community",
+  section_title("Community", "Board"),
+  board_ui("board")
+)
+
 faq_page <- page_section(
   section_title("Questions", "&", "Answers"),
   accordion(
@@ -198,6 +204,7 @@ ui <- page_navbar(
   nav_panel("Travel", value = "travel", travel_page),
   nav_panel("RSVP", value = "rsvp", rsvp_page),
   nav_panel("Registry", value = "registry", registry_page),
+  nav_panel("Community", value = "community", community_page),
   nav_panel("FAQ", value = "faq", faq_page),
   footer = div(
     class = "site-footer",
@@ -234,27 +241,82 @@ server <- function(input, output, session) {
   code_attempts <- reactiveVal(0)
   code_error <- reactiveVal(NULL)
 
-  observeEvent(input$check_code, {
+  # Shared by the RSVP form and the community board: unlocking one unlocks
+  # both. Returns NULL on success, or the message to show.
+  try_guest_code <- function(entered) {
+    locked_msg <- paste0(
+      "Too many attempts. Please email us at ",
+      site$contact_email,
+      " and we'll help you out."
+    )
     if (code_attempts() >= max_code_attempts) {
-      return()
+      return(locked_msg)
     }
     code_attempts(code_attempts() + 1)
-    matched <- check_guest_code(input$guest_code)
+    matched <- check_guest_code(entered)
     if (!is.null(matched)) {
       code_used(matched)
-      code_error(NULL)
+      NULL
     } else if (code_attempts() >= max_code_attempts) {
-      code_error(paste0(
-        "Too many attempts. Please email us at ",
-        site$contact_email,
-        " and we'll help you RSVP."
-      ))
+      locked_msg
     } else {
-      code_error(
-        "That code doesn't match. Please check your invitation and try again."
-      )
+      "That code doesn't match. Please check your invitation and try again."
     }
+  }
+
+  observeEvent(input$check_code, code_error(try_guest_code(input$guest_code)))
+
+  # --- Couple sign-in and planning tracker ---
+  admin_user <- reactiveVal(NULL)
+  admin_attempts <- reactiveVal(0)
+  planning_started <- FALSE
+
+  observeEvent(
+    session$clientData$url_search,
+    {
+      if ("couple" %in% names(parseQueryString(session$clientData$url_search))) {
+        showModal(admin_login_modal(locked = admin_locked_out()))
+      }
+    },
+    once = TRUE
+  )
+
+  observeEvent(input$admin_sign_in, {
+    if (admin_attempts() >= max_admin_attempts || admin_locked_out()) {
+      showModal(admin_login_modal(locked = TRUE))
+      return()
+    }
+    admin_attempts(admin_attempts() + 1)
+    who <- check_admin_password(input$admin_password)
+    if (is.null(who)) {
+      locked <- admin_attempts() >= max_admin_attempts || admin_locked_out()
+      showModal(admin_login_modal("That password doesn't match.", locked))
+      return()
+    }
+    admin_user(who)
+    removeModal()
+    if (!planning_started) {
+      planning_server("plan", admin_user, on_sign_out = sign_out)
+      planning_started <<- TRUE
+    }
+    nav_insert(
+      "nav",
+      nav_panel("Planning", value = "planning", planning_ui("plan")),
+      target = "faq",
+      position = "after",
+      select = TRUE
+    )
   })
+
+  # Called from inside the planning module, so pass this (top-level) session
+  # or the navbar id would be looked up in the module's namespace
+  sign_out <- function() {
+    admin_user(NULL)
+    nav_select("nav", "home", session = session)
+    nav_remove("nav", "planning", session = session)
+  }
+
+  board_server("board", code_used, try_guest_code, admin_user)
 
   output$code_error <- renderUI({
     req(code_error())
