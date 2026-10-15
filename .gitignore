@@ -1,6 +1,7 @@
 .Renviron
 secrets/
 *.json
+!manifest.json
 data/rsvps.csv
 rsconnect/
 .Rhistory
